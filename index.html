@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💘 For Shreya</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Poppins', system-ui, -apple-system, sans-serif; }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+      overflow: hidden;
+    }
+    .card {
+      background: white;
+      padding: 2.5rem 2rem 3rem;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      max-width: 320px;
+      position: relative;
+      animation: pop 0.6s ease;
+    }
+    @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      color: #ff4d6d;
+      font-size: 1.8rem;
+    }
+    p {
+      color: #444;
+      margin-bottom: 1.8rem;
+      font-size: 1.05rem;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      position: relative;
+    }
+    button {
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    #yes {
+      background: #ff4d6d;
+      color: white;
+    }
+    #yes:hover { transform: scale(1.08); }
+
+    #no {
+      background: #f1f1f1;
+      color: #333;
+      position: relative;
+    }
+
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 4s linear forwards;
+    }
+    @keyframes floatUp {
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <h1>Hey Shreya 💖</h1>
+    <p id="question">Will you be my Valentine?</p>
+    <div class="buttons">
+      <button id="yes">Yes 💕</button>
+      <button id="no">No 🙃</button>
+    </div>
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    const noBtn = document.getElementById('no');
+    const yesBtn = document.getElementById('yes');
+    const card = document.getElementById('card');
+    const hearts = document.getElementById('hearts');
+    const questionText = document.getElementById('question');
+
+    let yesScale = 1;
+    let noClicks = 0;
+
+    const sadLines = [
+      "but why 😔",
+      "i'll be a little sad 🥺",
+      "are you sure, Shreya? 💔",
+      "this kinda hurts 😢",
+      "okay now i'm actually sad 😞",
+      "pls don't do this to me 😭"
+    ];
+
+    noBtn.addEventListener('mouseenter', () => {
+      const x = Math.random() * 180 - 90;
+      const y = Math.random() * 120 - 60;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+      // YES button grows every dodge
+      yesScale += 0.15;
+      yesBtn.style.transform = `scale(${yesScale})`;
+    });
+
+    noBtn.addEventListener('click', () => {
+      const line = sadLines[Math.min(noClicks, sadLines.length - 1)];
+      questionText.textContent = line;
+      noClicks++;
+    });
+
+    yesBtn.addEventListener('click', () => {
+      yesScale += 0.2;
+      yesBtn.style.transform = `scale(${yesScale})`;
+
+      setTimeout(() => {
+        card.innerHTML = `
+          <h1>YAYYYYY 🥰</h1>
+          <p>You just made my whole day 💘<br>Happy Valentine's, Shreya!</p>
+        `;
+        launchHearts();
+      }, 200);
+    });
+
+    function launchHearts() {
+      for (let i = 0; i < 40; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = ['💖','💘','💕','❤️'][Math.floor(Math.random()*4)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = 2 + Math.random() * 3 + 's';
+        hearts.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }
+    }
+  </script>
+</body>
+</html>
